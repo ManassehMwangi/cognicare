@@ -61,7 +61,7 @@
   - Order model
   - Review model
   - Cart model
-- [] Implement NextAuth.js authentication:
+- [x] Implement NextAuth.js authentication:
   - Email/Password
   - OAuth providers (Google, GitHub)
   - JWT handling
@@ -69,7 +69,7 @@
 
 ### 3. Core Features - Customer Side [ ]
 
-- [] Home Layout:
+- [ ] Home Layout:
   - Create `(home)` folder in `app` directory
   - Header with logo, search bar, and navigation
   - Footer with links and social media
