@@ -61,26 +61,31 @@
   - Order model
   - Review model
   - Cart model
+- [x] Create and run database seed script:
+  - Admin and regular user accounts
+  - Medical/nursing book categories (Exam Prep, Textbooks, Clinical Resources)
+  - 6 sample products with proper book images
 - [x] Implement NextAuth.js authentication:
-  - Email/Password
-  - OAuth providers (Google, GitHub)
-  - JWT handling
-  - Protected routes
+  - Email/Password with JWT strategy
+  - Custom sign-in and error pages
+  - Role-based authentication (USER/ADMIN)
+  - Protected routes with middleware
 
 ### 3. Core Features - Customer Side [ ]
 
-- [ ] Home Layout:
+- [x] Home Layout:
   - Create `(home)` folder in `app` directory
   - Header with logo, search bar, and navigation
   - Footer with links and social media
-- [] Homepage:
-  - banner carousel
-  - latest products
-- [] Products Catalog:
-  - Sidebar with categories and filters
-  - Search results
-  - Product grid
-  - Pagination
+- [x] Homepage:
+  - Banner carousel with autoplay (banner1-5.jpg)
+  - Latest products grid with product cards
+  - Responsive design with proper styling
+- [x] Products Catalog:
+  - [x] Sidebar with categories and filters
+  - [x] Search results
+  - [x] Product grid
+  - [x] Pagination
 - [] Product pages:
   - Create product detail page layout
   - Implement image gallery with thumbnails

@@ -38,7 +38,7 @@ async function main() {
     create: {
       name: 'Exam Prep',
       description: 'Study guides and practice materials for medical and nursing exams',
-      image: '/images/banner1.jpg',
+      image: '/images/banner2.jpg',
     },
   })
 
