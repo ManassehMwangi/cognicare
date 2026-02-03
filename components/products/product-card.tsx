@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -37,24 +38,28 @@ export function ProductCard({ product }: ProductCardProps) {
     <Card className="group hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
       <CardContent className="p-0 flex-1 flex flex-col">
         {/* 1. Picture */}
-        <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
-          <Image
-            src={product.images[0] || '/images/placeholder.jpg'}
-            alt={product.name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <Badge className="absolute top-2 left-2" variant="secondary">
-            {product.category.name}
-          </Badge>
-        </div>
+        <Link href={`/products/${product.id}`} className="block">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
+            <Image
+              src={product.images[0] || '/images/placeholder.jpg'}
+              alt={product.name}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <Badge className="absolute top-2 left-2" variant="secondary">
+              {product.category.name}
+            </Badge>
+          </div>
+        </Link>
 
         {/* Content area with proper spacing */}
         <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
           {/* 2. Name of the product */}
-          <h3 className="font-semibold text-base line-clamp-2 group-hover:text-blue-600 transition-colors">
-            {product.name}
-          </h3>
+          <Link href={`/products/${product.id}`}>
+            <h3 className="font-semibold text-base line-clamp-2 group-hover:text-blue-600 transition-colors cursor-pointer">
+              {product.name}
+            </h3>
+          </Link>
 
           {/* 3. Brief description */}
           <p className="text-sm text-gray-600 line-clamp-2 flex-1">
