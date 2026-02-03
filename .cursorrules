@@ -53,8 +53,8 @@
 
 ### 2. Database and Authentication [X]
 
-- [] Set up PostgreSQL database
-- [] Configure Prisma schema:
+- [x] Set up PostgreSQL database
+- [x] Configure Prisma schema:
   - User model
   - Product model
   - Category model
