@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
-import { Star, ShoppingCart, Heart, Share2 } from 'lucide-react'
+import { Star, Heart, Share2 } from 'lucide-react'
 import { Product, Category, Review } from '@prisma/client'
 import { ProductCard } from '@/components/products/product-card'
 import { ReviewForm } from '@/components/products/review-form'
+import { AddToCartButton } from '@/components/cart/add-to-cart-button'
 
 type ProductWithDetails = Product & {
   category: Category
@@ -51,7 +52,6 @@ function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'lg
 
 export default function ProductDetailClient({ product, relatedProducts }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0)
-  const [quantity, setQuantity] = useState(1)
 
   // Calculate average rating
   const averageRating = product.reviews.length > 0
@@ -131,48 +131,18 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
             <p className="text-gray-600 leading-relaxed">{product.description}</p>
           </div>
 
-          {/* Quantity and Add to Cart */}
+          {/* Add to Cart Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <label htmlFor="quantity" className="font-medium">Quantity:</label>
-              <div className="flex items-center border rounded-md">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3 py-2 hover:bg-gray-100"
-                  disabled={quantity <= 1}
-                >
-                  -
-                </button>
-                <input
-                  id="quantity"
-                  type="number"
-                  min="1"
-                  max={product.stock}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-16 text-center py-2 border-x"
-                />
-                <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  className="px-3 py-2 hover:bg-gray-100"
-                  disabled={quantity >= product.stock}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
+            <AddToCartButton
+              productId={product.id}
+              stock={product.stock}
+              price={product.price}
+            />
+            
             <div className="flex gap-4">
-              <Button
-                size="lg"
-                className="flex-1"
-                disabled={product.stock === 0}
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Add to Cart
-              </Button>
-              <Button variant="outline" size="lg">
-                <Heart className="w-5 h-5" />
+              <Button variant="outline" size="lg" className="flex-1">
+                <Heart className="w-5 h-5 mr-2" />
+                Add to Wishlist
               </Button>
               <Button variant="outline" size="lg">
                 <Share2 className="w-5 h-5" />

@@ -100,14 +100,20 @@
   - [x] Related products section:
     - [x] Show products from same category
     - [x] Product card carousel  
-- [] Shopping cart:
-  - Add/remove items
-  - Update quantities
-  - Cart persistence
-- [] Checkout process:
-  - Shipping information
-  - Payment integration (Stripe)
-  - Order confirmation
+- [x] Shopping cart:
+  - [x] Create cart API routes (add, remove, update, get)
+  - [x] Implement cart state management with Zustand
+  - [x] Create cart UI components (cart drawer, cart item, cart summary)
+  - [x] Add cart functionality to product pages
+  - [x] Cart persistence with database
+  - [x] Cart badge in header with item count
+- [ ] Checkout process:
+  - [ ] Create checkout form components (payment)
+  - [ ] Implement order creation API
+  - [ ] Add Stripe payment integration
+  - [ ] Create order confirmation page
+  - [ ] Add form validation with Zod
+  - [ ] Handle order processing and inventory updates
 - [] User dashboard:
   - Order history
   - Profile management

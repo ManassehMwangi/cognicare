@@ -1,10 +1,16 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Star } from 'lucide-react'
+import { Star, ShoppingCart } from 'lucide-react'
 import { Product, Category } from '@prisma/client'
+import { useCartStore } from '@/lib/store/cart-store'
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface ProductCardProps {
   product: Product & {
@@ -31,8 +37,38 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { data: session } = useSession()
+  const { addToCart, openCart } = useCartStore()
+  const [isAdding, setIsAdding] = useState(false)
+  
   // Generate a mock rating between 3.5 and 5.0
   const rating = Math.round((3.5 + Math.random() * 1.5) * 10) / 10
+
+  const handleQuickAdd = async (e: React.MouseEvent) => {
+    e.preventDefault() // Prevent navigation to product page
+    
+    if (!session?.user) {
+      toast.error('Please sign in to add items to cart')
+      return
+    }
+
+    if (product.stock === 0) {
+      toast.error('Product is out of stock')
+      return
+    }
+
+    setIsAdding(true)
+    try {
+      await addToCart(product.id, 1)
+      toast.success('Added to cart')
+      openCart()
+    } catch (error) {
+      toast.error('Failed to add to cart')
+      console.error('Error adding to cart:', error)
+    } finally {
+      setIsAdding(false)
+    }
+  }
 
   return (
     <Card className="group hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
@@ -77,8 +113,24 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* 6. Add to cart button */}
-          <Button className="w-full mt-2">
-            Add to Cart
+          <Button 
+            className="w-full mt-2" 
+            onClick={handleQuickAdd}
+            disabled={isAdding || product.stock === 0}
+          >
+            {isAdding ? (
+              <>
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Adding...
+              </>
+            ) : product.stock === 0 ? (
+              'Out of Stock'
+            ) : (
+              <>
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Add to Cart
+              </>
+            )}
           </Button>
         </div>
       </CardContent>
