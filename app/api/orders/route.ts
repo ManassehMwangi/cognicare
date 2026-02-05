@@ -1,14 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { checkoutSchema } from '@/lib/validations/checkout'
+import { auth } from '@/auth'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+
+// GET /api/orders - Fetch user orders
+export async function GET(request: NextRequest) {
+  try {
+    const session = await auth()
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: session.user.id
+      },
+      include: {
+        items: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+                images: true
+              }
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+
+    return NextResponse.json({ orders })
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    return NextResponse.json({ 
+      error: 'Internal server error' 
+    }, { status: 500 })
+  }
+}
 
 
 // POST /api/orders - Create new order
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth()
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const body = await request.json()
     const { cartItems, formData, paymentIntentId } = body
 
@@ -77,7 +125,7 @@ export async function POST(request: NextRequest) {
     // Create a simple address record for digital products (no shipping needed)
     const address = await prisma.address.create({
       data: {
-        userId: 'guest', // For now, using guest until we add auth
+        userId: session.user.id,
         street: 'Digital Delivery',
         city: 'N/A',
         state: 'N/A',
@@ -90,8 +138,8 @@ export async function POST(request: NextRequest) {
     // Create order
     const order = await prisma.order.create({
       data: {
-        userId: 'guest', // For now, using guest until we add auth
-        status: 'PROCESSING',
+        userId: session.user.id,
+        status: 'PENDING', // Set to completed for digital products
         total: totalWithTax,
         stripePaymentId: paymentIntentId,
         addressId: address.id,

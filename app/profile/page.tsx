@@ -1,19 +1,19 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import { Header } from '@/components/layout/header'
-import { CheckoutClient } from './checkout-client'
+import { ProfileClient } from './profile-client'
 
-export default async function CheckoutPage() {
+export default async function ProfilePage() {
   const session = await auth()
 
   if (!session?.user) {
-    redirect('/auth/signin?callbackUrl=/checkout')
+    redirect('/auth/signin?callbackUrl=/profile')
   }
 
   return (
     <>
       <Header />
-      <CheckoutClient />
+      <ProfileClient user={session.user} />
     </>
   )
 }

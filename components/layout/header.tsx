@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Search, User, Menu } from 'lucide-react'
+import { Search, User, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSession, signOut } from 'next-auth/react'
@@ -11,6 +11,7 @@ import { CartButton } from '@/components/cart/cart-button'
 export function Header() {
   const { data: session } = useSession()
   const [searchQuery, setSearchQuery] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -22,6 +23,22 @@ export function Header() {
           </div>
           <span className="font-bold text-xl">CogniCare</span>
         </Link>
+
+        {/* Navigation Menu */}
+        <nav className="hidden md:flex items-center space-x-6 mx-8">
+          <Link 
+            href="/" 
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
+          <Link 
+            href="/products" 
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Study Documents
+          </Link>
+        </nav>
 
         {/* Search Bar */}
         <div className="flex-1 max-w-md mx-8">
@@ -36,7 +53,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Right Navigation */}
         <nav className="flex items-center space-x-4">
           {/* Cart */}
           <CartButton />
@@ -71,11 +88,38 @@ export function Header() {
           )}
 
           {/* Mobile Menu */}
-          <Button variant="ghost" size="sm" className="md:hidden">
-            <Menu className="h-5 w-5" />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </nav>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t bg-background">
+          <div className="container py-4 space-y-4">
+            <Link 
+              href="/" 
+              className="block text-sm font-medium hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link 
+              href="/products" 
+              className="block text-sm font-medium hover:text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Study Documents
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

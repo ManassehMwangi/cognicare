@@ -6,6 +6,7 @@ import { StudyCategories } from '@/components/home/study-categories'
 import { HowItWorks } from '@/components/home/how-it-works'
 import { StudyStats } from '@/components/home/study-stats'
 
+
 async function getLatestProducts() {
   try {
     return await prisma.product.findMany({
@@ -71,6 +72,8 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-16">
+      
+
       {/* Banner Carousel */}
       <BannerCarousel />
 

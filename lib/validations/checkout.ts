@@ -8,7 +8,7 @@ export const customerInfoSchema = z.object({
 
 export const checkoutSchema = z.object({
   customerInfo: customerInfoSchema,
-  paymentMethod: z.enum(['card']).default('card'),
+  paymentMethod: z.literal('card'),
 })
 
 export type CustomerInfo = z.infer<typeof customerInfoSchema>

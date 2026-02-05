@@ -107,13 +107,13 @@
   - [x] Add cart functionality to product pages
   - [x] Cart persistence with database
   - [x] Cart badge in header with item count
-- [ ] Checkout process:
-  - [ ] Create checkout form components (payment)
-  - [ ] Implement order creation API
-  - [ ] Add Stripe payment integration
-  - [ ] Create order confirmation page
-  - [ ] Add form validation with Zod
-  - [ ] Handle order processing and inventory updates
+- [x] Checkout process:
+  - [x] Create checkout form components (customer info, payment)
+  - [x] Implement order creation API
+  - [x] Add Stripe payment integration
+  - [x] Create order confirmation page
+  - [x] Add form validation with Zod
+  - [x] Handle order processing and inventory updates
 - [] User dashboard:
   - Order history
   - Profile management
