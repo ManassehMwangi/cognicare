@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import prisma from '@/lib/prisma'
 
-
 // GET /api/cart - Get user's cart
 export async function GET() {
   try {
